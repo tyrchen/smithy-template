@@ -1,0 +1,46 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'smithy/model/**'
+      - 'smithy/smithy-build.json'
+      - '.github/workflows/smithy.yml'
+      - 'crates/**'
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: 'tyrchen/smithy-assets'
+          file: 'assets.tar.gz'
+      - name: Install Rust
+        run: rustup toolchain install stable
+      - name: extract assets to $HOME/.m2
+        run: |
+          rm -rf $HOME/.m2
+          tar -xzf assets.tar.gz -C $HOME --strip-components=2
+          ls -la $HOME/.m2
+          rm assets.tar.gz
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Install Smithy
+        run: |
+          mkdir -p /tmp/smithy
+          curl -L https://github.com/smithy-lang/smithy/releases/download/1.43.0/smithy-cli-linux-x86_64.tar.gz -o /tmp/smithy-cli-linux.tar.gz
+          tar xvzf /tmp/smithy-cli-linux.tar.gz -C /tmp/smithy
+          sudo /tmp/smithy/install
+      - name: Run smithy build and copy generated files
+        run: |
+          make build-smithy
+      - name: build rust
+        run: cargo build
