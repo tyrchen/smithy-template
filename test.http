@@ -1,0 +1,24 @@
+# Echo REST API
+
+### signin
+
+# User should use existing anonymous token to signin. Here just for demo purpose.
+
+# @name login
+POST http://localhost:3000/api/signin
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "abcd1234"
+}
+
+### echo
+
+# retrieve token as echo service need it.
+
+@token = {{ login.response.body.token }}
+
+POST http://localhost:3000/api/echo
+Authorization: Bearer {{ token }}
+X-Echo-Message: hello world!

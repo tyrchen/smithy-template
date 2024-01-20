@@ -1,0 +1,88 @@
+{
+  "version": "1.0",
+  "sources": [
+    "model"
+  ],
+  "maven": {
+    "dependencies": [
+      "software.amazon.smithy:smithy-model:[1.41.0,2.0)",
+      "software.amazon.smithy:smithy-validation-model:[1.41.0,2.0)",
+      "software.amazon.smithy:smithy-aws-traits:[1.41.0,2.0)",
+      "software.amazon.smithy:smithy-openapi:1.41.1",
+      "software.amazon.smithy.python:smithy-python-codegen:0.1.0",
+      "software.amazon.smithy.typescript:smithy-typescript-codegen:0.19.0",
+      "software.amazon.smithy.typescript:smithy-aws-typescript-codegen:0.19.0",
+      "software.amazon.smithy:smithy-swift-codegen:0.1.0",
+      "software.amazon.smithy.rust.codegen:codegen-client:0.1.0",
+      "software.amazon.smithy.rust.codegen.server.smithy:codegen-server:0.1.0"
+    ]
+  },
+  "plugins": {
+    "openapi": {
+      "service": "com.example#EchoService",
+      "protocol": "aws.protocols#restJson1",
+      "version": "3.1.0",
+      "tags": true,
+      "useIntegerType": true,
+      "jsonAdd": {
+        "/servers": [
+          {
+            "url": "http://localhost:3000/api",
+            "description": "Local server"
+          }
+        ]
+      }
+    },
+    "rust-server-codegen": {
+      "service": "com.example#EchoService",
+      "module": "echo-server-sdk",
+      "moduleDescription": "Rust server SDK for echo server",
+      "moduleVersion": "0.1.0",
+      "moduleAuthors": [
+        "Tyr Chen <tchen@abc.xyz>"
+      ],
+      "runtimeConfig": {
+        "versions": {
+          "DEFAULT": "1.0.1",
+          "aws-smithy-http": "0.60.0",
+          "aws-smithy-json": "0.60.0",
+          "aws-smithy-http-server": "0.60.0"
+        }
+      }
+    },
+    "python-client-codegen": {
+      "service": "com.example#EchoService",
+      "module": "echo",
+      "moduleVersion": "0.0.1"
+    },
+    "typescript-client-codegen": {
+      "package": "echo",
+      "packageVersion": "0.0.1"
+    },
+    "swift-codegen": {
+      "service": "com.example#EchoService",
+      "module": "echo",
+      "moduleVersion": "0.0.1",
+      "homepage": "https://github.com/tyrchen",
+      "gitRepo": "https://github.com/tyrchen",
+      "author": "Tyr Chen <tchen@abc.xyz>",
+      "swiftVersion": "5.0"
+    },
+    "rust-client-codegen": {
+      "service": "com.example#EchoService",
+      "module": "echo-client-sdk",
+      "moduleDescription": "Rust client SDK for echo service",
+      "moduleVersion": "0.1.0",
+      "moduleAuthors": [
+        "Tyr Chen <tchen@abc.xyz>"
+      ],
+      "runtimeConfig": {
+        "versions": {
+          "DEFAULT": "1.0.1",
+          "aws-smithy-http": "0.60.0",
+          "aws-smithy-json": "0.60.0"
+        }
+      }
+    }
+  }
+}

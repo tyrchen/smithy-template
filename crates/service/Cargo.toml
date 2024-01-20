@@ -1,0 +1,38 @@
+[package]
+name = "echo-service"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[dependencies]
+aws-smithy-http-server = { version = "0.60" }
+axum = { workspace = true }
+axum-swagger-ui = "0.3"
+derive_more = { version = "1.0.0-beta.6", features = ["full"] }
+echo-server-sdk = { workspace = true }
+jwt-simple = "0.12.1"
+pin-project-lite = "0.2.13"
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = "1.0.50"
+tokio = { workspace = true }
+tower = "0.4.13"
+tower-http = { version = "0.4", features = [
+  "compression-full",
+  "cors",
+  "trace",
+  "fs",
+] }
+tracing = { workspace = true }
+uuid7 = { version = "0.7.2", features = ["serde"] }
+
+
+[dev-dependencies]
+anyhow = { workspace = true }
+reqwest = { version = "0.11.22", default-features = false, features = [
+  "rustls-tls",
+  "json",
+  "gzip",
+] }
